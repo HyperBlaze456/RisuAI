@@ -312,6 +312,7 @@ export async function hypaMemoryV2(
     }
 
     // Fetch additional memory from chunks
+    const searchDocumentPrefix = "search_document: ";
     const processor = new HypaProcesser(db.hypaModel);
     processor.oaikey = db.supaMemoryKey;
 
@@ -319,7 +320,7 @@ export async function hypaMemoryV2(
     await processor.addText(
         data.chunks
             .filter((v) => v.text.trim().length > 0)
-            .map((v) => "search_document: " + v.text.trim())
+            .map((v) => searchDocumentPrefix + v.text.trim())
     );
 
     let scoredResults: { [key: string]: number } = {};
@@ -354,7 +355,8 @@ export async function hypaMemoryV2(
             allocatedTokens - mainPromptTokens - chunkResultTokens
         )
             break;
-        chunkResultPrompts += text.substring(14) + "\n\n";
+        // Ensure strings are truncated correctly using searchDocumentPrefix.length
+        chunkResultPrompts += text.substring(searchDocumentPrefix.length) + "\n\n";
         chunkResultTokens += tokenized;
     }
 
