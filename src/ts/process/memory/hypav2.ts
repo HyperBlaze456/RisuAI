@@ -172,6 +172,7 @@ function cleanInvalidChunks(
     } else {
         data.lastMainChunkId = 0;
     }
+    console.log("Cleaned data state in cleanInvalidChunks(): ", data)
 }
 
 export async function regenerateSummary(
@@ -225,29 +226,40 @@ export async function hypaMemoryV2(
     }
     // Starting chat index of new mainChunk to be generated
 
-    // Token management loop(where using of )
+    // Token management loop(summarization happens)
     while (currentTokens >= maxContextTokens) {
+        console.log("The current Token exceeded maxContextTokens. Current tokens: ", currentTokens, "\nMax Context Tokens: ", maxContextTokens)
         const halfData: OpenAIChat[] = [];
         let halfDataTokens = 0;
-
+    
+        // Log the start index of summarization
+        const startIdx = idx;
+    
         // Accumulate chats to summarize
         while (
             halfDataTokens < chunkSize &&
-            idx < chats.length - 2 // Ensure latest two chats are not added to summarization.
+            idx < chats.length - 2 // Ensure the latest two chats are not added to summarization.
         ) {
             const chat = chats[idx];
             idx++;
             halfDataTokens += await tokenizer.tokenizeChat(chat);
             halfData.push(chat);
         }
-
+    
+        // Log the end index of summarization
+        const endIdx = idx - 1; // Adjust as the last increment may exceed the range
+    
+        console.log(
+            `Summarizing chats from index ${startIdx} to ${endIdx}.`
+        );
+    
         if (halfData.length === 0) break;
-
+    
         const stringlizedChat = halfData
             .map((e) => `${e.role}: ${e.content}`)
             .join("\n");
         const summaryData = await summary(stringlizedChat);
-
+    
         if (!summaryData.success) {
             summarizationFailures++;
             if (summarizationFailures >= maxSummarizationFailures) {
@@ -260,9 +272,9 @@ export async function hypaMemoryV2(
             }
             continue;
         }
-
+    
         summarizationFailures = 0; // Reset failure counter on success
-
+    
         const summaryDataToken = await tokenizer.tokenizeChat({
             role: "system",
             content: summaryData.data,
@@ -270,27 +282,27 @@ export async function hypaMemoryV2(
         mainPrompt += `\n\n${summaryData.data}`;
         currentTokens -= halfDataTokens;
         allocatedTokens -= summaryDataToken;
-
+    
         // Update lastMainChunkId and create a new mainChunk
         data.lastMainChunkId++;
         const newMainChunkId = data.lastMainChunkId;
-
+    
         const chatMemos = new Set(halfData.map((chat) => chat.memo));
         const lastChatMemo = halfData[halfData.length - 1].memo;
-
+    
         data.mainChunks.push({
             id: newMainChunkId,
             text: summaryData.data,
             chatMemos: chatMemos,
             lastChatMemo: lastChatMemo,
         });
-
+    
         // Split the summary into chunks
         const splitted = summaryData.data
             .split("\n\n")
             .map((e) => e.trim())
             .filter((e) => e.length > 0);
-
+    
         // Update chunks with the new summary
         data.chunks.push(
             ...splitted.map((e) => ({
