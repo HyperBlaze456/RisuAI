@@ -650,13 +650,13 @@
         <span class="text-textcolor">{language.embedding}</span>
         <SelectInput className="mt-2 mb-2" bind:value={DBState.db.hypaModel}>
             {#if 'gpu' in navigator}
-                <OptionInput value="nomicGPU">Nomic Embed Text v1.5 (GPU)</OptionInput>
-                <OptionInput value="bgeSmallEnGPU">BGE Small English (GPU)</OptionInput>
-                <OptionInput value="bgem3GPU">BGE Medium 3 (GPU)</OptionInput>
+                <OptionInput value="LaBSEGPU">LaBSE (GPU)</OptionInput>
+                <OptionInput value="bgeKoGPU">BGE Korean-Eng (GPU)</OptionInput>
+                <OptionInput value="bgem3GPU">BGE Medium 3 multilingual(GPU)</OptionInput>
             {/if}
             <OptionInput value="MiniLM">MiniLM L6 v2 (CPU)</OptionInput>
-            <OptionInput value="nomic">Nomic Embed Text v1.5 (CPU)</OptionInput>
-            <OptionInput value="bgeSmallEn">BGE Small English (CPU)</OptionInput>
+            <OptionInput value="LaBSE">Nomic Embed Text v1.5 (CPU)</OptionInput>
+            <OptionInput value="bgeKo">BGE Small English (CPU)</OptionInput>
             <OptionInput value="bgem3">BGE Medium 3 (CPU)</OptionInput>
             <OptionInput value="openai3small">OpenAI text-embedding-3-small</OptionInput>
             <OptionInput value="openai3large">OpenAI text-embedding-3-large</OptionInput>

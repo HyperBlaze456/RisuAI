@@ -11,16 +11,16 @@ export type HypaModel = 'ada'|'MiniLM'|'nomic'|'custom'|'nomicGPU'|'bgeSmallEn'|
 const localModels = {
     models: {
         'MiniLM':'Xenova/all-MiniLM-L6-v2',
-        'nomic':'nomic-ai/nomic-embed-text-v1.5',
-        'nomicGPU':'nomic-ai/nomic-embed-text-v1.5',
-        'bgeSmallEn': 'BAAI/bge-small-en-v1.5',
-        'bgeSmallEnGPU': 'BAAI/bge-small-en-v1.5',
+        'LaBSE':'onnx-models/LaBSE-onnx',
+        'LaBSEGPU':'onnx-models/LaBSE-onnx',
+        'bgeKo': 'dragonkue/BGE-m3-ko',
+        'bgeKoGPU': 'dragonkue/BGE-m3-ko',
         'bgem3': 'BAAI/bge-m3',
         'bgem3GPU': 'BAAI/bge-m3',
     },
     gpuModels:[
-        'nomicGPU',
-        'bgeSmallEnGPU',
+        'LaBSEGPU',
+        'bgeKoGPU',
         'bgem3GPU'
     ]
 }
