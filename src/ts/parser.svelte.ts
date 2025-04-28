@@ -1,4 +1,4 @@
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'dompurify';
 import markdownit from 'markdown-it'
 import { getCurrentCharacter, type Database, type Message, type character, type customscript, type groupChat, type triggerscript } from './storage/database.svelte';
 import { DBState } from './stores.svelte';
@@ -1707,6 +1707,12 @@ function basicMatcher (p1:string,matcherArg:matcherArg,vars:{[key:string]:string
                         total += Math.floor(Math.random() * sides) + 1
                     }
                     return total.toString()
+                }
+                case 'fromhex':{
+                    return Number.parseInt(arra[1], 16).toString()
+                }
+                case 'tohex':{
+                    return Number.parseInt(arra[1]).toString(16)
                 }
             }
         }
