@@ -12,10 +12,11 @@ async function initTransformers(){
     }
     tfCache = await caches.open('tfCache')
     env.localModelPath = "https://sv.risuai.xyz/transformers/"
-    env.useBrowserCache = false
+    env.useBrowserCache = true
     env.useFSCache = false
     env.useCustomCache = true
     env.allowLocalModels = true
+    env.allowRemoteModels = true
     env.customCache = {
         put: async (url:URL|string, response:Response) => {
             await tfCache.put(url, response)
@@ -54,7 +55,7 @@ export const runSummarizer = async (text: string) => {
 
 let extractor:FeatureExtractionPipeline = null
 let lastEmbeddingModelQuery:string = ''
-type EmbeddingModel = 'Xenova/all-MiniLM-L6-v2'|'nomic-ai/nomic-embed-text-v1.5'
+type EmbeddingModel = 'Xenova/all-MiniLM-L6-v2'|'Xenova/bge-m3'
 export const runEmbedding = async (texts: string[], model:EmbeddingModel = 'Xenova/all-MiniLM-L6-v2', device:'webgpu'|'wasm'):Promise<Float32Array[]> => {
     await initTransformers()
     console.log('running embedding')

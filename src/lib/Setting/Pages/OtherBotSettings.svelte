@@ -669,7 +669,7 @@
             {/if}
             <OptionInput value="MiniLM">MiniLM L6 v2 (CPU)</OptionInput>
             <OptionInput value="LaBSE">Nomic Embed Text v1.5 (CPU)</OptionInput>
-            <OptionInput value="bgeKo">BGE Small English (CPU)</OptionInput>
+            <OptionInput value="bgeKo">BGE Korean-Eng (CPU)</OptionInput>
             <OptionInput value="bgem3">BGE Medium 3 (CPU)</OptionInput>
             <OptionInput value="openai3small">OpenAI text-embedding-3-small</OptionInput>
             <OptionInput value="openai3large">OpenAI text-embedding-3-large</OptionInput>

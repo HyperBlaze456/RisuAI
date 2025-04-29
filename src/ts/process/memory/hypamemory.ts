@@ -15,8 +15,8 @@ const localModels = {
         'LaBSEGPU':'onnx-models/LaBSE-onnx',
         'bgeKo': 'dragonkue/BGE-m3-ko',
         'bgeKoGPU': 'dragonkue/BGE-m3-ko',
-        'bgem3': 'BAAI/bge-m3',
-        'bgem3GPU': 'BAAI/bge-m3',
+        'bgem3': 'Xenova/bge-m3',
+        'bgem3GPU': 'Xenova/bge-m3',
     },
     gpuModels:[
         'LaBSEGPU',
